@@ -19,5 +19,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Endpoints
-Route::post ('register', [UserController::class, 'register']) -> name ('register');
+// Rutas
+// Endpoint para realizar el Registro de un nuevo empleado
+Route::post ('/user/register', [ UserController::class, 'register' ]) -> name ('register');
+
+// Endpoint para realizar el Login en la aplicación
+Route::post ('/user/login', [ UserController::class, 'login']) -> name ('login');
+

@@ -5,11 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     // Metodo POST
-    public function register ( Request $request) {
+    // Función para que un usuario con el rol de Administrador pueda dar de alta nuevos empleados
+    public function register (Request $request) {
         
         $input = $request -> all ( );
         $input ['password']  = bcrypt ($input ['password']);
@@ -21,6 +23,7 @@ class UserController extends Controller
             'email' => ['required', 'email'],
             'password' => 'required | min: 4',
             'department' => 'required',
+            'contract' => 'required',
         ];
 
         $messages = [
@@ -29,6 +32,7 @@ class UserController extends Controller
             'email.required' => 'El campo Correo electrónico no puede estar vacio',
             'password' => 'El campo Contraseña no puede estar vacío',
             'department' => 'Debes de escoger un Departamento',
+            'contract' => 'Debes de escoger un tipo de contrato',
         ];
 
         $validator = validator::make ($input, $rules, $messages);
@@ -40,6 +44,19 @@ class UserController extends Controller
             $user = User::create ($input);
             return $user;
         }
-
     }
-}
+
+    // Función para que un usuario haga Login
+    public function login (Request $request) {
+        
+        $credentials = $request -> only ('email', 'password');
+
+        if (Auth::attempt ($credentials )) {
+
+            return response ( ) -> json ('Login correcto', 200);
+        }
+        else {
+            return response ( ) -> json ([ 'error' => 'Se ha producido un fallo en el proceso, revisa los datos' ], 400);
+        }
+    }
+};
