@@ -52,8 +52,19 @@ class UserController extends Controller
         $credentials = $request -> only ('email', 'password');
 
         if (Auth::attempt ($credentials )) {
+            
+            // Devuelvo el usuario a traves del Auth
+            $user = Auth::user ( );
 
-            return response ( ) -> json ('Login correcto', 200);
+            // Asigno la creacion del token al usuario
+            $token = $user -> createToken ('Token') -> accessToken;
+
+            // Establezco la respuesta hacia el Frontend
+            $data = [];
+            $data ['user'] = $user;
+            $data ['token'] = $token;
+
+            return response ( ) -> json ($data, 200);
         }
         else {
             return response ( ) -> json ([ 'error' => 'Se ha producido un fallo en el proceso, revisa los datos' ], 400);
