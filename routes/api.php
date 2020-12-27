@@ -26,3 +26,5 @@ Route::post ('/user/register', [ UserController::class, 'register' ]) -> name ('
 // Endpoint para realizar el Login en la aplicación
 Route::post ('/user/login', [ UserController::class, 'login']) -> name ('login');
 
+// Endpoint para realizar el Logout de la aplicación
+Route::post ('/user/logout', [UserController::class, 'logout']) -> name ('logout')->middleware('auth:api'); 

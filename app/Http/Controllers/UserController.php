@@ -70,4 +70,12 @@ class UserController extends Controller
             return response ( ) -> json ([ 'error' => 'Se ha producido un fallo en el proceso, revisa los datos' ], 400);
         }
     }
+
+    public function logout (Request $request) {
+
+        $token = $request -> user() -> token();
+        $token -> revoke();
+
+        return response () -> json ('Se ha cerrado la sesión de manera correcta', 200);
+    }
 };
