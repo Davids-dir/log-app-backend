@@ -78,4 +78,13 @@ class UserController extends Controller
 
         return response () -> json ('Se ha cerrado la sesión de manera correcta', 200);
     }
+
+    // Función para realizar una busqueda concreto de un usuario
+    public function search_one (Request $request) {
+
+        $input = $request -> only ('name', 'last_name');
+        $user = User::where($input)->get ();
+
+        return response ( ) -> json ($user);
+    }
 };
