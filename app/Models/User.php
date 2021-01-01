@@ -46,7 +46,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function logs () {
-        return $this -> hasMany('App\Models\Log');
+    public function logs()
+    {
+        return $this->hasMany('App\Models\Log');
+    }
+
+    public function departments()
+    {
+        return $this->belongsToMany('App\Models\Department');
     }
 }
