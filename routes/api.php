@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\LogController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Rutas
+// Rutas para Registro, Modificacion y eliminar un usuario
 // Endpoint para realizar el Registro de un nuevo empleado
 Route::post ('/user/register', [ UserController::class, 'register' ]) -> name ('register');
 
@@ -31,3 +32,7 @@ Route::post ('/user/logout', [UserController::class, 'logout']) -> name ('logout
 
 // Endpoint para  realizar una busqueda de un empleado concreto
 Route::post('user/search_one', [ UserController::class, 'search_one']) -> name ('search_one');
+
+// Rutas para registro de jornada
+// Endopoint para registrar el inicio de la jornada
+Route::post('log/start/{id}', [LogController::class, 'start_work'])->name('start_work');

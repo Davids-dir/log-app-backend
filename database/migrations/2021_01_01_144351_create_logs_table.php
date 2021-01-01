@@ -15,11 +15,11 @@ class CreateLogsTable extends Migration
     {
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
-            $table->dateTime('start', 0);
-            $table->dateTime('end', 0);
-            $table->dateTime('pause_start', 0);
-            $table->dateTime('pause_end', 0);
-            $table->ipAddress('ip_direction');
+            $table->dateTime('start_time', 0);
+            $table->dateTime('end_time', 0)->nullable();
+            $table->dateTime('pause_start', 0)->nullable();
+            $table->dateTime('pause_end', 0)->nullable();
+            $table->ipAddress('ip_direction')->nullable();
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained('users');

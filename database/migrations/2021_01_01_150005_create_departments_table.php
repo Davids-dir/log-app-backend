@@ -15,10 +15,10 @@ class CreateDepartmentsTable extends Migration
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
-            $table->string('marketing');
-            $table->string('production');
-            $table->string('quality');
-            $table->string('administration');
+            $table->string('marketing')->nullable();
+            $table->string('production')->nullable();
+            $table->string('quality')->nullable();
+            $table->string('administration')->nullable();
             $table->timestamps();
 
         
