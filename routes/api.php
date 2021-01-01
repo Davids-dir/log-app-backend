@@ -36,3 +36,6 @@ Route::post('user/search_one', [ UserController::class, 'search_one']) -> name (
 // Rutas para registro de jornada
 // Endopoint para registrar el inicio de la jornada
 Route::post('log/start/{id}', [LogController::class, 'start_work'])->name('start_work');
+
+// Endpoint para realizar las modificaciones en el turno de un trabajador
+Route::put('log/end/{id}', [LogController::class, 'end_work'])->name('end_work');
