@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
+use App\Models\User;
 use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -53,7 +54,8 @@ class LogController extends Controller
         }
     }
 
-    public function end_pause($id) {
+    public function end_pause($id)
+    {
         // Obtenemos el horario actual a la hora de realizar la operación
         $timeNow = Carbon::now(new DateTimeZone('Europe/Madrid'));
 
@@ -64,5 +66,19 @@ class LogController extends Controller
         } else {
             return response()->json('Has reanudado la sesión de trabajo');
         }
+    }
+
+    public function show_all()
+    {
+        $all_logs = Log::all();
+
+        return $all_logs;
+    }
+
+    public function show_one($id)
+    {
+        $logs = User::with('logs')->find($id);
+
+        return $logs;
     }
 }
