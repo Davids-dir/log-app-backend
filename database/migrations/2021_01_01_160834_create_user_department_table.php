@@ -13,7 +13,7 @@ class CreateUserDepartmentTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_department', function (Blueprint $table) {
+        Schema::create('department_user', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
 
@@ -29,6 +29,6 @@ class CreateUserDepartmentTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_department');
+        Schema::dropIfExists('department_user');
     }
 }

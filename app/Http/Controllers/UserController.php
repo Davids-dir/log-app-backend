@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -14,8 +15,10 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
-        $input = $request->all();
+        $input = $request->all();       
+
         $input['password']  = bcrypt($input['password']);
+        $department = $input['department'];
 
         // Defino los campos obligatorios para realizar el POST
         $rules = [
@@ -41,8 +44,10 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([$validator->errors()], 400);
         } else {
-            $user = User::create($input);
-            return $user;
+            $user = User::create($input)->departments()->attach($department);
+            
+
+            return ([$user, $department]);
         }
     }
 

@@ -20,8 +20,7 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->boolean('admin')->default(false);
-            $table->enum('department', ['administration', 'marketing', 'production', 'logistics']);
-            $table->enum('contract', ['full_time', 'half_time', 'practices']);
+            $table->string('contract');
             $table->rememberToken();
             $table->timestamps();
         });
