@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use DB;
 
 class UserController extends Controller
 {
@@ -16,9 +17,9 @@ class UserController extends Controller
     {
 
         $input = $request->all();       
+        $departmentData = $request->only('department');
 
         $input['password']  = bcrypt($input['password']);
-        $department = $input['department'];
 
         // Defino los campos obligatorios para realizar el POST
         $rules = [
@@ -44,9 +45,17 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([$validator->errors()], 400);
         } else {
-            $user = User::create($input)->departments()->attach($department);
             
+            // Creo el usuario
+            $user = User::create($input);
 
+            // Insert en la tabla DEPARTAMENTOS introduciendo el dpto. al que pertenece el usuario 
+            $department = Department::create($departmentData);
+
+            // Añado la relacion entre el usuario y el departamento en la tabla intermedia
+            $user->departments()->attach($department);
+            
+            
             return ([$user, $department]);
         }
     }
