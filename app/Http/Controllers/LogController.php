@@ -14,15 +14,23 @@ class LogController extends Controller
     //Función para registrar la hora de entrada de un empelado
     public function start_work(Request $request, $id)
     {
+
+        $input = $request->only('ip');
+
         // Obtenemos el horario actual a la hora de realizar la operación
         $timeNow = Carbon::now(new DateTimeZone('Europe/Madrid'));
 
-        $work_query = DB::table('logs')->insert(['start_time' => $timeNow, 'user_id' => $id]);
+        // Query hacia la base de datos
+        $work_query = DB::table('logs')->insert([
+            'start_time' => $timeNow, 
+            'ip' => $input['ip'],
+             'user_id' => $id
+        ]);
 
         if (!$work_query) {
             return response()->json('Error en la operacion, intentalo de nuevo');
         } else {
-            return response()->json('Has iniciado la jornada correctamente');
+            return response()->json(['message' => 'Has iniciado la jornada correctamente', 'hora' => $timeNow], 200);
         }
     }
 

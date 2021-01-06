@@ -19,7 +19,7 @@ class CreateLogsTable extends Migration
             $table->dateTime('end_time', 0)->nullable();
             $table->dateTime('pause_start', 0)->nullable();
             $table->dateTime('pause_end', 0)->nullable();
-            $table->ipAddress('ip_direction')->nullable();
+            $table->ipAddress('ip')->nullable();
             $table->timestamps();
 
             $table->foreignId('user_id')->constrained('users');

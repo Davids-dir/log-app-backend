@@ -20,7 +20,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Rutas para Registro, Modificacion y eliminar un usuario
+// Rutas para Registro, Modificacion y eliminar un empleado
 // Endpoint para realizar el Registro de un nuevo empleado
 Route::post ('/user/register', [ UserController::class, 'register' ]) -> name ('register');
 
@@ -32,6 +32,9 @@ Route::post ('/user/logout', [UserController::class, 'logout']) -> name ('logout
 
 // Endpoint para  realizar una busqueda de un empleado concreto
 Route::post('user/search_one', [ UserController::class, 'search_one']) -> name ('search_one');
+
+// Endpoint para realizar una modificacion de un empleado
+Route::put('user/update', [UserController::class, 'update'])->name('update');
 
 // Rutas para registro de jornada
 // Endopoint para registrar el inicio de la jornada

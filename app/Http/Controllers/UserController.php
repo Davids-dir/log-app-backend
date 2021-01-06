@@ -55,7 +55,7 @@ class UserController extends Controller
             // Añado la relacion entre el usuario y el departamento en la tabla intermedia
             $user->departments()->attach($department);
             
-            
+
             return ([$user, $department]);
         }
     }
@@ -101,5 +101,49 @@ class UserController extends Controller
         $user = User::where($input)->get();
 
         return response()->json($user);
+    }
+
+    public function update (Request $request, $id) {
+        $user = User::findOrFail ($id);
+
+        $request -> has([
+            'name',
+            'last_name',
+            'telephone',
+            'birthday',
+            'email',
+            'password',
+        ]);
+
+        $rules = [
+            'name' => 'required',
+            'last_name' => 'required',
+            'email' => ['required', 'email'],
+            'password' => 'required | min: 4',
+            'department' => 'required',
+            'contract' => 'required',
+        ];
+
+        $messages = [
+            'name.required' => 'El campo Nombre no puede estar vacío',
+            'last_name.required' => 'El campo Apellidos no puede estar vacío',
+            'email.required' => 'El campo Correo electrónico no puede estar vacio',
+            'password' => 'El campo Contraseña no puede estar vacío',
+            'department' => 'Debes de escoger un Departamento',
+            'contract' => 'Debes de escoger un tipo de contrato',
+        ];
+
+        $request['password'] = bcrypt ($request['password']);
+
+        $validator = validator::make($rules, $messages);
+
+        if ($validator -> fails ()) {
+            return response () -> json ([$validator -> errors ()], 400);
+        }
+        else {
+            $user -> update ($request -> all ());
+
+            return $user;
+        }
     }
 };
