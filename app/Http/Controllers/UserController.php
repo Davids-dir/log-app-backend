@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -97,10 +98,11 @@ class UserController extends Controller
     // Función para realizar una busqueda concreto de un usuario
     public function search_one(Request $request)
     {
-        $input = $request->only('name');
-        $user = User::where($input)->get();
+        $input = $request->only('name', 'last_name');
 
-        return response()->json($user);
+        $user = User::where($input)->with('departments')->get();
+
+        return $user;
     }
 
     public function update (Request $request, $id) {
