@@ -151,4 +151,22 @@ class UserController extends Controller
             return $user;
         }
     }
+
+    public function delete ($id) {
+        
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json('Se ha producido un error en la operación');
+        }
+        else {
+            
+            $user->departments()->detach();
+            User::destroy($user->id);
+            Department::destroy($user->id);
+            
+            return response()->json('Empleado eliminado con éxito');
+        }
+
+    }
 };
