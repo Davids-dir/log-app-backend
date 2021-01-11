@@ -12,7 +12,7 @@ use DB;
 
 class UserController extends Controller
 {
-    // Metodo POST
+    
     // Función para que un usuario con el rol de Administrador pueda dar de alta nuevos empleados
     public function register(Request $request)
     {
