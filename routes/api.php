@@ -44,7 +44,7 @@ Route::delete('admin/delete/{id}', [UserController::class, 'delete'])->name('del
 Route::post('log/start/{id}', [LogController::class, 'start_work'])->name('start_work');
 
 // Endpoint para realizar las modificaciones en el turno de un trabajador
-Route::put('log/update/{id}', [LogController::class, 'end_work'])->name('end_work');
+Route::put('log/update.stop/{id}', [LogController::class, 'end_work'])->name('end_work');
 Route::put('log/update.startpause/{id}', [LogController::class, 'start_pause'])->name('start_pause');
 Route::put('log/update.endpause/{id}', [LogController::class, 'end_pause'])->name('end_pause');
 
