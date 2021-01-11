@@ -13,4 +13,9 @@ class UserDepartment extends Model
         'user_id',
         'department_id',
     ];
+
+    protected $hidden = [
+        'user_id',
+        'department_id',
+    ];
 }

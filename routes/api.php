@@ -36,12 +36,15 @@ Route::post('user/search_one', [ UserController::class, 'search_one']) -> name (
 // Endpoint para realizar una modificacion de un empleado
 Route::put('user/update', [UserController::class, 'update'])->name('update');
 
+// Endpoint para eliminar a un empleado
+Route::delete('admin/delete/{id}', [UserController::class, 'delete'])->name('delete');
+
 // Rutas para registro de jornada
 // Endopoint para registrar el inicio de la jornada
 Route::post('log/start/{id}', [LogController::class, 'start_work'])->name('start_work');
 
 // Endpoint para realizar las modificaciones en el turno de un trabajador
-Route::put('log/update/{id}', [LogController::class, 'end_work'])->name('end_work');
+Route::put('log/update.stop/{id}', [LogController::class, 'end_work'])->name('end_work');
 Route::put('log/update.startpause/{id}', [LogController::class, 'start_pause'])->name('start_pause');
 Route::put('log/update.endpause/{id}', [LogController::class, 'end_pause'])->name('end_pause');
 

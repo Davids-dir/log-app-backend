@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Department;
 use App\Models\User;
+use App\Models\UserDepartment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
 
-        $input = $request->all();       
+        $input = $request->all();
         $departmentData = $request->only('department');
 
         $input['password']  = bcrypt($input['password']);
@@ -45,7 +46,7 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response()->json([$validator->errors()], 400);
         } else {
-            
+
             // Creo el usuario
             $user = User::create($input);
 
@@ -54,7 +55,7 @@ class UserController extends Controller
 
             // Añado la relacion entre el usuario y el departamento en la tabla intermedia
             $user->departments()->attach($department);
-            
+
 
             return ([$user, $department]);
         }
@@ -87,7 +88,6 @@ class UserController extends Controller
 
     public function logout(Request $request)
     {
-
         $token = $request->user()->token();
         $token->revoke();
 
@@ -97,16 +97,22 @@ class UserController extends Controller
     // Función para realizar una busqueda concreto de un usuario
     public function search_one(Request $request)
     {
-        $input = $request->only('name');
-        $user = User::where($input)->get();
+        $input = $request->only('email');
+        $user = User::where($input)->with('departments')->first();
 
-        return response()->json($user);
+        if (!$user) {
+            return response()->json(['error' => 'No hay ningun empleado con ese email'], 404);
+        }
+        else {
+            return $user;
+        }
     }
 
-    public function update (Request $request, $id) {
-        $user = User::findOrFail ($id);
+    public function update(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
 
-        $request -> has([
+        $request->has([
             'name',
             'last_name',
             'telephone',
@@ -133,17 +139,34 @@ class UserController extends Controller
             'contract' => 'Debes de escoger un tipo de contrato',
         ];
 
-        $request['password'] = bcrypt ($request['password']);
+        $request['password'] = bcrypt($request['password']);
 
         $validator = validator::make($rules, $messages);
 
-        if ($validator -> fails ()) {
-            return response () -> json ([$validator -> errors ()], 400);
-        }
-        else {
-            $user -> update ($request -> all ());
+        if ($validator->fails()) {
+            return response()->json([$validator->errors()], 400);
+        } else {
+            $user->update($request->all());
 
             return $user;
         }
+    }
+
+    public function delete ($id) {
+        
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json('Se ha producido un error en la operación');
+        }
+        else {
+            
+            $user->departments()->detach();
+            User::destroy($user->id);
+            Department::destroy($user->id);
+            
+            return response()->json('Empleado eliminado con éxito');
+        }
+
     }
 };
