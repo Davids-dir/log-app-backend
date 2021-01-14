@@ -56,9 +56,9 @@ class LogController extends Controller
         $pause_start_query = DB::table('logs')->where('user_id', $id)->update(['pause_start' => $timeNow]);
 
         if (!$pause_start_query) {
-            return response()->json('Error en la operación, intentalo de nuevo');
+            return response()->json( 'Error en la operación, intentalo de nuevo');
         } else {
-            return response()->json('Has pausado la sesión de trabajo');
+            return response()->json(['message' => 'Has pausado la sesión de trabajo', 'hora' => $timeNow]);
         }
     }
 
