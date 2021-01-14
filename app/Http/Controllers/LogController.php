@@ -44,7 +44,7 @@ class LogController extends Controller
         if (!$work_query) {
             return response()->json('Error en la operación, intentalo de nuevo');
         } else {
-            return response()->json('Has finalizado la jornada correctamente');
+            return response()->json(['message' => 'Has finalizado la jornada correctamente', 'hora' => $timeNow], 200);
         }
     }
 
@@ -58,7 +58,7 @@ class LogController extends Controller
         if (!$pause_start_query) {
             return response()->json( 'Error en la operación, intentalo de nuevo');
         } else {
-            return response()->json(['message' => 'Has pausado la sesión de trabajo', 'hora' => $timeNow]);
+            return response()->json(['message' => 'Has pausado la sesión de trabajo', 'hora' => $timeNow], 200);
         }
     }
 
@@ -72,7 +72,7 @@ class LogController extends Controller
         if (!$pause_end_query) {
             return response()->json('Error en la operación, intentalo de nuevo');
         } else {
-            return response()->json('Has reanudado la sesión de trabajo');
+            return response()->json(['message' => 'Has reanudado la sesión de trabajo', 'hora' => $timeNow], 200);
         }
     }
 
