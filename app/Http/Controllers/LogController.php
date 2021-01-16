@@ -83,9 +83,11 @@ class LogController extends Controller
         return $all_logs;
     }
 
-    public function show_one($id)
+    public function show_one(Request $request)
     {
-        $logs = User::with('logs')->find($id);
+        $input = request()->only('email');
+
+        $logs = User::where('email', $input)->with('logs')->get();
 
         return $logs;
     }

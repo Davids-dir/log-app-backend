@@ -50,4 +50,4 @@ Route::put('log/update.endpause/{id}', [LogController::class, 'end_pause'])->nam
 
 // Endpoint para mostrar todas las jornadas de todos los trabajadores
 Route::get('log/showall', [LogController::class, 'show_all'])->name('show_all');
-Route::get('log/showone/{id}', [LogController::class, 'show_one'])->name('show_one');
+Route::post('log/showone/', [LogController::class, 'show_one'])->name('show_one');
