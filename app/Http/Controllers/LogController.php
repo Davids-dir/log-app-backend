@@ -87,7 +87,7 @@ class LogController extends Controller
     {
         $input = request()->only('email');
 
-        $logs = User::where('email', $input)->with('logs')->first();
+        $logs = User::where('email', $input)->with('logs')->get();
 
         return $logs;
     }
