@@ -85,17 +85,15 @@ class LogController extends Controller
 
     public function show_one(Request $request)
     {
-        $input = request('email');
+        $input = $request->input('email');
 
-        $user = DB::table('users')->where('email', '=', $input)->get();
+        $user = User::where('email', $input)->with('logs')->first();
         
         
         if(!$user){
             return response()->json('El email es incorrecto');
         }
         else {
-            // $logs = DB::table('logs')->where('user_id', '=', $user->id)->get();
-            
             return $user;
         }
     }
