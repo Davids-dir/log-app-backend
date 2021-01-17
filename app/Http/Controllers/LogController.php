@@ -87,15 +87,15 @@ class LogController extends Controller
     {
         $input = $request->input('email');
 
-        $user = User::where($input)->first();
+        $user = User::where('email', $input)->first();
         
 
         if(!$user){
             return response()->json('El email es incorrecto');
         }
         else {
+            $logs = Log::where('user_id', $user->id)->get();
 
-            $logs = Log::where('id', $user->id)->get();
             return $logs;
         }
     }
