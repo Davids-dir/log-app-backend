@@ -91,7 +91,7 @@ class LogController extends Controller
         
         
         if(!$user){
-            return response()->json('El email es incorrecto');
+            return response()->json('El email introducido es incorrecto');
         }
         else {
             return $user;
