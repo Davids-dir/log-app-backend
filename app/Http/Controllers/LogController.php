@@ -85,8 +85,8 @@ class LogController extends Controller
 
     public function show_one(Request $request)
     {
-        $input = $request->input('email');
-        $user = User::where($input)->with('logs')->first();
+        $input = $request->only('email');
+        $user = User::where($input)->first();
         
         
         if(!$user){
