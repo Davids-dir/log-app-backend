@@ -24,7 +24,8 @@ class LogController extends Controller
         $work_query = DB::table('logs')->insert([
             'start_time' => $timeNow, 
             'ip' => $input['ip'],
-             'user_id' => $id
+             'user_id' => $id,
+             'created_at' => $timeNow,
         ]);
 
         if (!$work_query) {
